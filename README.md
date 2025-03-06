@@ -1,7 +1,7 @@
 # Publishing High Resolution Images with ESP32-CAM and Node-Red
  
 <p align="center">
-  <img src="assets/ImageOverMQTT.png" alt="ESP32-CAM Module" width="400"/>
+  <img src="Assets/ImageOverMQTT.png" alt="ESP32-CAM Module" width="400"/>
 </p>
 
 This repository contains ESP32-CAM firmware/Arduino Sketch to transmit High Resolution images over MQTT and Node-RED flow to receive and decode payloads back to image.
@@ -26,10 +26,10 @@ You may have to set maximum payload size, based on your Broker's maximum size.
 ## Demos
 
 ### ESP32-CAM Logs of transmission
-<img src="assets/TransmissionLogs.png" alt="Transmission Logs" width="600"/>
+<img src="Assets/TransmissionLogs.png" alt="Transmission Logs" width="600"/>
 
 ### Node-RED Flow of Image Reception
-<img src="assets/NodeRed-Reception.png" alt="Node-RED Flow" width="600"/>
+<img src="Assets/NodeRed-Reception.png" alt="Node-RED Flow" width="600"/>
 
 ### Sample Received Image (Resized)
-<img src="assets/received_image.jpg" alt="Received Image" width="600"/>
+<img src="Assets/received_image.jpg" alt="Received Image" width="600"/>
