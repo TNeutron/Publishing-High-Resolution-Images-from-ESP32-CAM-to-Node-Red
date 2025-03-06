@@ -6,7 +6,7 @@
 
 This repository contains ESP32-CAM firmware/Arduino Sketch to transmit High Resolution images over MQTT and Node-RED flow to receive and decode payloads back to image.
 
-Full Details can be found at my Instructable Post: 
+Full Details can be found at my Instructable Post: https://www.instructables.com/Receiving-and-Decoding-HD-Images-From-ESP32-CAM-Wi/ 
 
 ## Requirements
 1. MQTT Library for ESP32-CAM: `MQTTPubSubClient` 
