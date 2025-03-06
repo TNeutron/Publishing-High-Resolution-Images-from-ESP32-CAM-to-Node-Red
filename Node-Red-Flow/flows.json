@@ -1,0 +1,87 @@
+[
+    {
+        "id": "d2659c2f73e40f39",
+        "type": "tab",
+        "label": "Flow 3",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "8e351caec0b69cd2",
+        "type": "mqtt in",
+        "z": "d2659c2f73e40f39",
+        "name": "",
+        "topic": "ESP32/Cam/ImagePart",
+        "qos": "1",
+        "datatype": "auto-detect",
+        "broker": "",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 640,
+        "y": 400,
+        "wires": [
+            [
+                "52249cacdfb65ca4"
+            ]
+        ]
+    },
+    {
+        "id": "52249cacdfb65ca4",
+        "type": "function",
+        "z": "d2659c2f73e40f39",
+        "name": "function 12",
+        "func": "// Get existing buffer or initialize it\nvar imageData = global.get(\"imageData\");\n\nif (!imageData) {\n    imageData = Buffer.alloc(0);  // If no previous data exists, create an empty buffer\n}\n\n// Check if message is a \"START\" marker\nif (msg.payload.toString() === \"START\") {\n    node.status({ text: \"Started Reception\" });\n    global.set(\"imageData\", Buffer.alloc(0));  // Reset buffer\n    return null;\n}\n\n// Check if message is an \"END\" marker\nif (msg.payload.toString() === \"END\") {\n    node.status({ text: \"Reception Complete!\" });\n\n    // Retrieve full image data\n    msg.payload = global.get(\"imageData\");  \n    \n    // Change this path for your OS\n    msg.filename = \"C:\\\\Users\\\\ ---> SET YOUR DIRECTORY HERE <-----\";  \n    msg.contentType = \"image/jpeg\";  // Ensure correct MIME type\n    node.warn(\"Saving image, size: \" + msg.payload.length + \" bytes\");\n\n    // Reset buffer for next image\n    global.set(\"imageData\", Buffer.alloc(0));  \n\n    return msg;  // Send complete image to file node\n}\n\n// Ensure incoming payload is a Buffer\nif (!Buffer.isBuffer(msg.payload)) {\n    node.warn(\"Received non-buffer data, converting to buffer...\");\n    msg.payload = Buffer.from(msg.payload, \"binary\");\n}\n\n// Append new image chunk to buffer\nvar newChunk = msg.payload;\nimageData = Buffer.concat([imageData, newChunk]);\n\nglobal.set(\"imageData\", imageData);\nnode.status({ text: \"Receiving: \" + imageData.length + \" bytes\" });\n\nreturn null;  // Keep collecting until \"END\" is received\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 880,
+        "y": 400,
+        "wires": [
+            [
+                "f161976b83fcfeb7",
+                "24893639870a6496"
+            ]
+        ]
+    },
+    {
+        "id": "f161976b83fcfeb7",
+        "type": "image",
+        "z": "d2659c2f73e40f39",
+        "name": "",
+        "width": "1600",
+        "data": "payload",
+        "dataType": "msg",
+        "thumbnail": false,
+        "active": true,
+        "pass": true,
+        "outputs": 1,
+        "x": 1120,
+        "y": 460,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "24893639870a6496",
+        "type": "file",
+        "z": "d2659c2f73e40f39",
+        "name": "",
+        "filename": "filename",
+        "filenameType": "msg",
+        "appendNewline": true,
+        "createDir": false,
+        "overwriteFile": "true",
+        "encoding": "setbymsg",
+        "x": 1120,
+        "y": 400,
+        "wires": [
+            []
+        ]
+    }
+]
